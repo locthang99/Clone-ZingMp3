@@ -20,16 +20,17 @@ function writeError(err) {
 
 const lineReader = require("line-reader");
 
-async function rmDup(path, outPath) {
+async function rmDup(path, outPath,sum) {
   console.log(path);
   var checkList = new Map();
   var count = 0;
   await lineReader.eachLine(path, function (line) {
-
-    if (!checkList[line.slice(13, 23)]) {
+    var r = /Z[O|W][0-9|A-F|U|I|O|Z|W]{6}/g
+    lineData = line.slice(14, 22)
+    if (!checkList[lineData] && r.test(lineData) && count <= sum) {
       //console.log(obj)
-      checkList[line.slice(13, 23)] = true;
-      writeData("./Output4/" + outPath + ".txt", line);
+      checkList[lineData] = true;
+      writeData(outPath, line);
       count++;
     }
   });
@@ -46,6 +47,7 @@ var listTypes = [
   "viet-nam-nhac-cach-mang-",
   "viet-nam-nhac-dan-ca-que-huong-",
   "viet-nam-nhac-ton-giao-",
+  "viet-nam-nhac-khong-loi-",
   "au-my-classical-",
   "au-my-folk-",
   "au-my-country-",
@@ -63,31 +65,82 @@ var listTypes = [
   "thai-lan-",
 ];
 
+var listVN = [
+  "viet-nam-cai-luong-",
+  "viet-nam-nhac-tre-v-pop-",
+  "viet-nam-nhac-trinh-",
+  "viet-nam-nhac-tru-tinh-",
+  "viet-nam-rap-viet-",
+  "viet-nam-nhac-thieu-nhi-",
+  "viet-nam-nhac-cach-mang-",
+  "viet-nam-nhac-dan-ca-que-huong-",
+  "viet-nam-nhac-ton-giao-",
+  "viet-nam-nhac-khong-loi-",
+]
 
-for(let i = 1 ;i<=6;i++)
-{
-  fs.readdir("Input"+"/clonezingbypython"+i+"/Data", (err, files) => {
+var listAnother = [
+  "trung-quoc-",
+  "han-quoc-",
+  "nhat-ban-",
+  "thai-lan-",
+  "phap-"
+]
+
+var listAU =[
+  "au-my-classical-",
+  "au-my-folk-",
+  "au-my-country-",
+  "au-my-pop-",
+  "au-my-rock-",
+  "au-my-latin-",
+  "au-my-rap-hip-hop-",
+  "au-my-alternative-",
+  "au-my-blues-jazz-",
+  "au-my-reggae-",
+  "au-my-r-b-soul-",
+]
+
+var listTest = ["viet-nam-nhac-khong-loi-"]
+
+const RemoveDupJSON = () => {
+  const pathInput = "C:\\Users\\ldthang\\Desktop\\Area 51\\CloneByPython"
+  for (let i = 1; i <= 7; i++) {
+    fs.readdir(pathInput + "\\clonezingbypython" + i + "\\Data", (err, files) => {
+      files.forEach(file => {
+        //console.log(file);
+        if (listAnother.includes(file))
+          rmDup(pathInput + "\\clonezingbypython" + i + "\\Data\\" + file, "Output/"+file,2000)
+      });
+    });
+  }
+}
+
+const RemoveDupAfter = () =>{
+  fs.readdir("Output", (err, files) => {
     files.forEach(file => {
-      //console.log(file);
-      if(listTest.includes(file))
-        rmDup("Input"+"/clonezingbypython"+i+"/Data/"+file,file)
+      console.log(file);
+      if (listAnother.includes(file))
+        rmDup("Output/"+ file, "OutputFinal/"+file+".txt",10000)
     });
   });
 }
 
-rmDup("C:/Users/KhunGLonG/Desktop/clone/Cover/NotVN/thai-lan-","thai-lan-")
+//RemoveDupJSON()
+RemoveDupAfter()
 
-fs.readdir("DataJSON", (err, files) => {
-  files.forEach((file) => {
-    var path = ("Download/"+file).replace(".txt","")
-    if (!fs.existsSync(path)) {
-      fs.mkdirSync(path);
-    }
+// rmDup("C:/Users/KhunGLonG/Desktop/clone/Cover/NotVN/thai-lan-","thai-lan-")
 
-    // if (listTest.includes(file))
-    //   rmDup("Input" + "/clonezingbypython" + i + "/Data/" + file, file);
-  });
-});
+// fs.readdir("DataJSON", (err, files) => {
+//   files.forEach((file) => {
+//     var path = ("Download/"+file).replace(".txt","")
+//     if (!fs.existsSync(path)) {
+//       fs.mkdirSync(path);
+//     }
+
+//     // if (listTest.includes(file))
+//     //   rmDup("Input" + "/clonezingbypython" + i + "/Data/" + file, file);
+//   });
+// });
 
 // const request = require("request");
 // const download = async (id,output) => {
@@ -115,7 +168,7 @@ fs.readdir("DataJSON", (err, files) => {
 //           download(id,"Download/"+listTypes[i]+"/"+id+".mp3").then(()=>{console.log("done")})
 //           return;
 //         }
-    
+
 //   });
 // }
 
