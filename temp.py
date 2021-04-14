@@ -45,9 +45,10 @@ def AddSong(path,output):
 ##################################################################################
 if __name__ == "__main__":
 
-    t = "thai-lan-pop-"
-    p = r"C:\Users\ldthang\Desktop\Area 51\clonezing\Official\VN"
-    p2 = r"C:\Users\ldthang\Desktop\Area 51\clonezing\Cover\VN"
-    p3 = r"C:\Users\ldthang\Desktop\Area 51\clonezing\Cover\NotVN"
-    out = os.path.join(r"Output","thai-lan-")
+    t = "thai-lan-"
+    p = r"C:\Users\KhunGLonG\Desktop\clone\Official\VN"
+    p2 = r"C:\Users\KhunGLonG\Desktop\clone\Cover\VN"
+    p3 = r"C:\Users\KhunGLonG\Desktop\clone\Cover\NotVN"
+    out = os.path.join(r"Output",t)
     AddSong(os.path.join(p3,t),out)
+

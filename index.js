@@ -28,6 +28,7 @@ async function rmDup(path, outPath,sum) {
     var r = /Z[O|W][0-9|A-F|U|I|O|Z|W]{6}/g
     lineData = line.slice(14, 22)
     if (!checkList[lineData] && r.test(lineData) && count <= sum) {
+      console.log(lineData)
       //console.log(obj)
       checkList[lineData] = true;
       writeData(outPath, line);
@@ -115,10 +116,11 @@ const RemoveDupJSON = () => {
   }
 }
 
+var listT = ["thai-lan-"]
 const RemoveDupAfter = () =>{
   fs.readdir("Output", (err, files) => {
     files.forEach(file => {
-      if (listVN.includes(file))
+      if (listT.includes(file))
         rmDup("Output/"+ file, "OutputFinal/"+file+".txt",10000)
     });
   });
