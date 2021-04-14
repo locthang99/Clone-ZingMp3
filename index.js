@@ -118,8 +118,7 @@ const RemoveDupJSON = () => {
 const RemoveDupAfter = () =>{
   fs.readdir("Output", (err, files) => {
     files.forEach(file => {
-      console.log(file);
-      if (listAnother.includes(file))
+      if (listVN.includes(file))
         rmDup("Output/"+ file, "OutputFinal/"+file+".txt",10000)
     });
   });
