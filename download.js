@@ -89,8 +89,8 @@ var listAU = [
 
 var count = 0;
 var target = 0;
-var step = 1000
-var idType =3;
+var step = 500
+var idType =4;
 var output = "/content/gdrive/MyDrive/DatasetSong/"
 const download = async (id, type, output) => {
   try {
@@ -102,9 +102,10 @@ const download = async (id, type, output) => {
         count++;
         DownAll(idType)
         writeData("Error1/" + type, id);
+        throw new Error("aaa")
       }
 
-      //throw new Error("aaa")
+    
     });
     r.on("complete", () => {
       console.log(id,"  OK")
@@ -154,7 +155,7 @@ const DownAll = (indexType) => {
     for(let i = count;i<target;i++)
         download(ListID[i],listTypes[indexType],output + listTypes[indexType] + "/" + ListID[i] + ".mp3").catch(e=>{})
   }
-  },5000)
+  },10000)
 }
 AddListId(idType);
 DownAll(idType)
