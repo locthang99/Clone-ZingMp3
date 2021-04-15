@@ -153,13 +153,21 @@ const DownAll = (indexType) => {
     if(target>ListID.length)
       target = ListID.length
     for(let i = count;i<target;i++)
+    {
+      try{
         download(ListID[i],listTypes[indexType],output + listTypes[indexType] + "/" + ListID[i] + ".mp3").catch(e=>{})
+      }
+      catch{
+
+      }
+    }
   }
   },10000)
 }
 AddListId(idType);
 DownAll(idType)
-//DownAll(idType)
+
+
 
 // const fetch = require("node-fetch")
 // fetch("https://604f32afc20143001744c8aa.mockapi.io/api/v1/config/cf").then(res=>res.json())
