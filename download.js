@@ -164,8 +164,8 @@ const DownAll = (indexType) => {
   }
   },10000)
 }
-//AddListId(idType);
-//DownAll(idType)
+AddListId(idType);
+DownAll(idType)
 
 // const fetch = require("node-fetch")
 // fetch("https://604f32afc20143001744c8aa.mockapi.io/api/v1/config/cf").then(res=>res.json())
