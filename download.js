@@ -130,8 +130,8 @@ var ListID = [];
 
 const AddListId = (i) => {
   ListID = []
-  // if (!fs.existsSync(output + listTypes[i]))
-  //   fs.mkdirSync(output + listTypes[i]);
+  if (!fs.existsSync(output + listTypes[i]))
+    fs.mkdirSync(output + listTypes[i]);
   lineReader.eachLine("OutputFinal/" + listTypes[i] + ".txt", function (line) {
     let id = line.slice(14, 22);
     if (id.length == 8) {
