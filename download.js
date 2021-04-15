@@ -98,7 +98,6 @@ const download = async (id, type, output) => {
       "http://api.mp3.zing.vn/api/streaming/audio/" + id + "/128"
     );
     r.on("response", (res) => {
-      console.log(res.statusCode);
       if (res.statusCode != 200) {
         count++;
         DownAll(idType)
