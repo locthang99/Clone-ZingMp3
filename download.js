@@ -90,7 +90,7 @@ var listAU = [
 var count = 0;
 var target = 100;
 var step = 100
-var idType =1;
+var idType =2;
 var output = "/content/gdrive/MyDrive/DatasetSong/"
 const download = async (id, type, output) => {
   try {
@@ -140,7 +140,10 @@ const DownAll = (indexType) => {
       count =0;
       target =step;
       idType++;
+      AddListId(idType)
+      setTimeout(()=>{DownAll(idType)},5000)
       console.log("change type")
+      return
     }
   if(count == target || count==0)
   {
