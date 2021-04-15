@@ -88,9 +88,9 @@ var listAU = [
 
 
 var count = 0;
-var target = 100;
-var step = 100
-var idType =2;
+var target = 0;
+var step = 1000
+var idType =3;
 var output = "/content/gdrive/MyDrive/DatasetSong/"
 const download = async (id, type, output) => {
   try {
@@ -135,13 +135,14 @@ const AddListId = (i) => {
 };
 
 const DownAll = (indexType) => {
-  if(count > ListID.length)
+  setTimeout(()=>{
+    if(count > ListID.length)
     {
       count =0;
-      target =step;
+      target =0;
       idType++;
       AddListId(idType)
-      setTimeout(()=>{DownAll(idType)},5000)
+      DownAll(idType)
       console.log("change type")
       return
     }
@@ -153,10 +154,10 @@ const DownAll = (indexType) => {
     for(let i = count;i<target;i++)
         download(ListID[i],listTypes[indexType],output + listTypes[indexType] + "/" + ListID[i] + ".mp3").catch(e=>{})
   }
+  },5000)
 }
 AddListId(idType);
-//sleep(3000)
-setTimeout(()=>{DownAll(idType)},3000)
+DownAll(idType)
 //DownAll(idType)
 
 // const fetch = require("node-fetch")
