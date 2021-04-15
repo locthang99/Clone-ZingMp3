@@ -147,7 +147,7 @@ const DownAll = (indexType) => {
       target =0;
       idType++;
       AddListId(idType)
-      DownAll(idType)
+      setTimeout(()=>{DownAll(idType)},3000)
       console.log("change type")
       return
     }
