@@ -90,7 +90,7 @@ var listAU = [
 var count = 0;
 var target = 0;
 var step = 500
-var idType = 4;
+var idType = 5;
 var output = "/content/gdrive/MyDrive/DatasetSong/"
 const download =  (id, type, output) => {
   var err = false;
