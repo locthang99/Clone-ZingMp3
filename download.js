@@ -86,11 +86,12 @@ var listAU = [
 
 // ---------------------------------------------------------------------------------
 
-var listTest = ["viet-nam-nhac-khong-loi-"];
+
 var count = 0;
-var target = 10;
-var step = 10
+var target = 100;
+var step = 100
 var idType =1;
+var output = "/content/gdrive/MyDrive/DatasetSong/"
 const download = async (id, type, output) => {
   try {
     var r = request(
@@ -102,15 +103,14 @@ const download = async (id, type, output) => {
         count++;
         DownAll(idType)
         writeData("Error1/" + type, id);
-        throw new Error("404");
       }
 
       //throw new Error("aaa")
     });
     r.on("complete", () => {
+      console.log(id,"  OK")
       count++;
       DownAll(idType)
-      console.log("OK");
     });
     r.pipe(fs.createWriteStream(output));
   } catch (err) {
@@ -124,9 +124,11 @@ const download = async (id, type, output) => {
 
 
 var ListID = [];
+
 const AddListId = (i) => {
-  if (!fs.existsSync("Test/" + listTypes[i]))
-    fs.mkdirSync("Test/" + listTypes[i]);
+  ListID = []
+  if (!fs.existsSync(output + listTypes[i]))
+    fs.mkdirSync(output + listTypes[i]);
   lineReader.eachLine("OutputFinal/" + listTypes[i] + ".txt", function (line) {
     let id = line.slice(14, 22);
     if (id.length == 8) ListID.push(id);
@@ -134,24 +136,27 @@ const AddListId = (i) => {
 };
 
 const DownAll = (indexType) => {
+  if(count > ListID.length)
+    {
+      count =0;
+      target =step;
+      idType++;
+      console.log("change type")
+    }
   if(count == target || count==0)
   {
     target += step;
+    if(target>ListID.length)
+      target = ListID.length
     for(let i = count;i<target;i++)
-        download(ListID[i],listTypes[indexType],"Test/" + listTypes[indexType] + "/" + ListID[i] + ".mp3").catch(e=>{})
+        download(ListID[i],listTypes[indexType],output + listTypes[indexType] + "/" + ListID[i] + ".mp3").catch(e=>{})
   }
 }
 AddListId(idType);
 //sleep(3000)
-setTimeout(()=>{console.log(ListID.length)},3000)
-DownAll(idType)
+setTimeout(()=>{DownAll(idType)},3000)
+//DownAll(idType)
 
-function sleep(time) {
-  var stop = new Date().getTime();
-  while(new Date().getTime() < stop + time) {
-      
-  }
-}
 // const fetch = require("node-fetch")
 // fetch("https://604f32afc20143001744c8aa.mockapi.io/api/v1/config/cf").then(res=>res.json())
 // .then(res=>{
