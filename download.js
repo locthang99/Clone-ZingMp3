@@ -3,7 +3,7 @@ const lineReader = require("line-reader");
 const request = require("request");
 // ---------------------------------------------------------------------------------
 function writeData(path, data) {
-  fs.appendFile(path, "\n" + data, function (err) {
+  fs.appendFile(path, data, function (err) {
     if (err) writeErrorWrite(data);
   });
 }
@@ -130,8 +130,8 @@ var ListID = [];
 
 const AddListId = (i) => {
   ListID = []
-  if (!fs.existsSync(output + listTypes[i]))
-    fs.mkdirSync(output + listTypes[i]);
+  // if (!fs.existsSync(output + listTypes[i]))
+  //   fs.mkdirSync(output + listTypes[i]);
   lineReader.eachLine("OutputFinal/" + listTypes[i] + ".txt", function (line) {
     let id = line.slice(14, 22);
     if (id.length == 8) {
@@ -169,10 +169,14 @@ const DownAll = (indexType) => {
   }
 }
 
-AddListId(idType);
-setTimeout(()=>{DownAll(idType)},3000)
+AddListId(1);
 
-
+setTimeout(()=>{
+  ListID.forEach(x=>{
+    if(count<100)
+      writeData("BashLinux/test.txt","curl -s -L api.mp3.zing.vn/api/streaming/audio/"+x+"/128 -o "+x+".mp3 & ")
+  })
+},3000)
 
 
 // const fetch = require("node-fetch")
